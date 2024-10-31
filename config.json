@@ -1,7 +1,7 @@
 {
   "name": "Coinflip",
   "short_description": "Bet sats on coinflips",
-  "tile": "/coinflip/static/image/coinflip.png",
+  "tile": "/coinflip/static/image/coinflip.gif",
   "min_lnbits_version": "1.0.0",
   "tags": ["gambling", "casino", "dice", "lnurl"],
   "contributors": [
