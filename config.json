@@ -1,0 +1,47 @@
+{
+  "name": "Coinflip",
+  "short_description": "Bet sats on coinflips",
+  "tile": "/coinflip/static/image/coinflip.png",
+  "min_lnbits_version": "1.0.0",
+  "tags": ["gambling", "casino", "dice", "lnurl"],
+  "contributors": [
+    {
+      "name": "arcbtc",
+      "uri": "https://github.com/arcbtc",
+      "role": "Contributor"
+    },
+    {
+      "name": "prusnak",
+      "uri": "https://github.com/prusnak",
+      "role": "Contributor"
+    },
+    {
+      "name": "talvasconcelos",
+      "uri": "https://github.com/talvasconcelos",
+      "role": "Contributor"
+    },
+    {
+      "name": "dni",
+      "uri": "https://github.com/dni",
+      "role": "Contributor"
+    }
+  ],
+  "images": [
+    {
+      "uri": "https://raw.githubusercontent.com/lnbits/coinflip/main/static/image/1.jpg",
+      "link": "https://www.youtube.com/embed/3f7RBIpTFlw?si=QuAhFPSYNrYiFZJe"
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/lnbits/coinflip/main/static/image/1.png"
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/lnbits/coinflip/main/static/image/2.png"
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/lnbits/coinflip/main/static/image/3.png"
+    }
+  ],
+  "description_md": "https://raw.githubusercontent.com/lnbits/coinflip/main/description.md",
+  "terms_and_conditions_md": "https://raw.githubusercontent.com/lnbits/coinflip/main/toc.md",
+  "license": "MIT"
+}
