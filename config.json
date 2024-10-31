@@ -3,7 +3,7 @@
   "short_description": "Bet sats on coinflips",
   "tile": "/coinflip/static/image/coinflip.gif",
   "min_lnbits_version": "0.12.0",
-  "tags": ["gambling", "casino", "dice", "lnurl"],
+  "tags": ["gambling"],
   "contributors": [
     {
       "name": "arcbtc",
