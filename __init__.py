@@ -8,7 +8,6 @@ from .crud import db
 from .tasks import wait_for_paid_invoices
 from .views import coinflip_generic_router
 from .views_api import coinflip_api_router
-from .views_lnurl import coinflip_lnurl_router
 
 coinflip_ext: APIRouter = APIRouter(prefix="/coinflip", tags=["coinflip"])
 coinflip_ext.include_router(coinflip_generic_router)
