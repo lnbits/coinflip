@@ -12,7 +12,6 @@ from .views_api import coinflip_api_router
 coinflip_ext: APIRouter = APIRouter(prefix="/coinflip", tags=["coinflip"])
 coinflip_ext.include_router(coinflip_generic_router)
 coinflip_ext.include_router(coinflip_api_router)
-coinflip_ext.include_router(coinflip_lnurl_router)
 
 coinflip_static_files = [
     {
