@@ -28,7 +28,6 @@ async def index(request: Request, user: User = Depends(check_user_exists)):
 )
 async def display_coinflip(request: Request, coinflip_settings_id: str, game: str):
     coinflip_settings = await get_coinflip_settings_from_id(coinflip_settings_id)
-    logger.debug(coinflip_settings)
     if not coinflip_settings:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND, detail="Coinflip game does not exist."
@@ -36,7 +35,6 @@ async def display_coinflip(request: Request, coinflip_settings_id: str, game: st
     winner = None
     if game:
         coinflip = await get_coinflip(game)
-        logger.debug(coinflip)
         if not coinflip:
             raise HTTPException(
                 status_code=HTTPStatus.NOT_FOUND, detail="Coinflip game does not exist."

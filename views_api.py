@@ -125,7 +125,7 @@ async def api_join_coinflip(data: JoinCoinflipGame):
         amount=coinflip_game.buy_in,
         memo=f"Coinflip {coinflip_game.name} for {data.ln_address}",
         extra={
-            "tag": "coinflip_coinflip",
+            "tag": "coinflip",
             "ln_address": data.ln_address,
             "game_id": data.game_id,
         },

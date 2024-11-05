@@ -152,7 +152,7 @@
       websocket() {
         const url = new URL(window.location)
         url.protocol = url.protocol === 'https:' ? 'wss' : 'ws'
-        url.pathname = `/api/v1/ws/${this.qr.payment_hash}`
+        url.pathname = `/api/v1/ws/coinflip${this.qr.payment_hash}`
         const ws = new WebSocket(url)
         ws.addEventListener('message', async ({data}) => {
           console.log(data)

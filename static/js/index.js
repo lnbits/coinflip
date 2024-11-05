@@ -39,7 +39,6 @@ window.app = Vue.createApp({
       } else {
         method = 'POST'
       }
-      console.log(this.g.user)
       await LNbits.api
         .request(
           method,
@@ -66,7 +65,6 @@ window.app = Vue.createApp({
           this.g.user.wallets[0].adminkey
         )
         .then(response => {
-          console.log(response.data)
           this.coinflipSettings.id = response.data.id
           this.coinflipSettings.enabled = response.data.enabled
           this.coinflipSettings.haircut = response.data.haircut

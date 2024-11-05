@@ -2,7 +2,6 @@ from typing import Optional
 
 from lnbits.db import Database
 from lnbits.helpers import urlsafe_short_hash
-from loguru import logger
 
 from .models import Coinflip, CoinflipSettings, CreateCoinflip, CreateCoinflipSettings
 
@@ -28,7 +27,6 @@ async def update_coinflip_settings(settings: CoinflipSettings) -> CoinflipSettin
 async def get_coinflip_settings(
     user_id: str,
 ) -> Optional[CoinflipSettings]:
-    logger.debug(user_id)
     return await db.fetchone(
         "SELECT * FROM coinflip.settings WHERE user_id = :user_id",
         {"user_id": user_id},
@@ -47,7 +45,6 @@ async def get_coinflip_settings_from_id(settings_id: str) -> Optional[CoinflipSe
 # Coinflips
 async def create_coinflip(data: CreateCoinflip) -> Coinflip:
     coinflip = Coinflip(**data.dict(), id=urlsafe_short_hash())
-    logger.debug(coinflip)
     await db.insert("coinflip.coinflip", coinflip)
     return coinflip
 
@@ -58,7 +55,6 @@ async def update_coinflip(coinflip: Coinflip) -> Coinflip:
 
 
 async def get_coinflip(coinflip_id: str) -> Optional[Coinflip]:
-    logger.debug("coinflip_id")
     return await db.fetchone(
         "SELECT * FROM coinflip.coinflip WHERE id = :id",
         {"id": coinflip_id},

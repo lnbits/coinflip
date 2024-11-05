@@ -4,10 +4,10 @@ import random
 from lnbits.core.models import Payment
 from lnbits.core.services import pay_invoice, websocket_updater
 from lnbits.tasks import register_invoice_listener
-
+from loguru import logger
 from .crud import (
     get_coinflip,
-    get_coinflip_settings,
+    get_coinflip_settings_from_id,
     update_coinflip,
 )
 from .helpers import get_pr
@@ -23,6 +23,7 @@ async def wait_for_paid_invoices():
 
 
 async def on_invoice_paid(payment: Payment) -> None:
+    logger.debug("test")
     if payment.extra.get("tag") == "coinflip":
         ln_address = payment.extra["ln_address"]
         game_id = payment.extra["game_id"]
@@ -30,12 +31,18 @@ async def on_invoice_paid(payment: Payment) -> None:
         coinflip = await get_coinflip(game_id)
         if not coinflip or not coinflip.settings_id:
             return
-        coinflip_settings = await get_coinflip_settings(coinflip.settings_id)
+        logger.debug(coinflip.settings_id)
+        coinflip_settings = await get_coinflip_settings_from_id(coinflip.settings_id)
+        logger.debug("coinflip_settings")
+        logger.debug(coinflip_settings)
+        logger.debug("coinflip_settings")
         if not coinflip_settings:
             return
+        logger.debug("test")
         # Check they are not trying to scam the system.
         if (payment.amount / 1000) != coinflip.buy_in:
             return
+        logger.debug("test")
         # If the game is full set as completed and refund the player.
         coinflip_players = coinflip.players.split(",")
         if len(coinflip_players) + 1 > coinflip.number_of_players:
@@ -55,7 +62,7 @@ async def on_invoice_paid(payment: Payment) -> None:
                 max_sat=max_sat,
                 description="Refund. Coinflip game was full.",
             )
-            await websocket_updater(payment.payment_hash, "refund")
+            await websocket_updater("coinflip" + payment.payment_hash, "refund")
             return
 
         # Add the player to the game.
@@ -82,7 +89,7 @@ async def on_invoice_paid(payment: Payment) -> None:
             if not pr:
                 return
             if winner == ln_address:
-                await websocket_updater(payment.payment_hash, f"won,{winner}")
+                await websocket_updater("coinflip" + payment.payment_hash, f"won,{winner}")
                 await pay_invoice(
                     wallet_id=coinflip_settings.wallet_id,
                     payment_request=pr,
@@ -90,7 +97,7 @@ async def on_invoice_paid(payment: Payment) -> None:
                     description="You flipping won the coinflip!",
                 )
             if winner != ln_address:
-                await websocket_updater(payment.payment_hash, f"lost,{winner}")
+                await websocket_updater("coinflip" + payment.payment_hash, f"lost,{winner}")
             return
 
-        await websocket_updater(payment.payment_hash, "paid")
+        await websocket_updater("coinflip" + payment.payment_hash, "paid")
