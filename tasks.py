@@ -4,7 +4,6 @@ import random
 from lnbits.core.models import Payment
 from lnbits.core.services import pay_invoice, websocket_updater
 from lnbits.tasks import register_invoice_listener
-from loguru import logger
 from .crud import (
     get_coinflip,
     get_coinflip_settings_from_id,
@@ -23,7 +22,6 @@ async def wait_for_paid_invoices():
 
 
 async def on_invoice_paid(payment: Payment) -> None:
-    logger.debug("test")
     if payment.extra.get("tag") == "coinflip":
         ln_address = payment.extra["ln_address"]
         game_id = payment.extra["game_id"]
@@ -31,18 +29,12 @@ async def on_invoice_paid(payment: Payment) -> None:
         coinflip = await get_coinflip(game_id)
         if not coinflip or not coinflip.settings_id:
             return
-        logger.debug(coinflip.settings_id)
         coinflip_settings = await get_coinflip_settings_from_id(coinflip.settings_id)
-        logger.debug("coinflip_settings")
-        logger.debug(coinflip_settings)
-        logger.debug("coinflip_settings")
         if not coinflip_settings:
             return
-        logger.debug("test")
         # Check they are not trying to scam the system.
         if (payment.amount / 1000) != coinflip.buy_in:
             return
-        logger.debug("test")
         # If the game is full set as completed and refund the player.
         coinflip_players = coinflip.players.split(",")
         if len(coinflip_players) + 1 > coinflip.number_of_players:
