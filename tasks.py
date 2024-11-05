@@ -4,6 +4,7 @@ import random
 from lnbits.core.models import Payment
 from lnbits.core.services import pay_invoice, websocket_updater
 from lnbits.tasks import register_invoice_listener
+
 from .crud import (
     get_coinflip,
     get_coinflip_settings_from_id,
@@ -81,7 +82,9 @@ async def on_invoice_paid(payment: Payment) -> None:
             if not pr:
                 return
             if winner == ln_address:
-                await websocket_updater("coinflip" + payment.payment_hash, f"won,{winner}")
+                await websocket_updater(
+                    "coinflip" + payment.payment_hash, f"won,{winner}"
+                )
                 await pay_invoice(
                     wallet_id=coinflip_settings.wallet_id,
                     payment_request=pr,
@@ -89,7 +92,9 @@ async def on_invoice_paid(payment: Payment) -> None:
                     description="You flipping won the coinflip!",
                 )
             if winner != ln_address:
-                await websocket_updater("coinflip" + payment.payment_hash, f"lost,{winner}")
+                await websocket_updater(
+                    "coinflip" + payment.payment_hash, f"lost,{winner}"
+                )
             return
 
         await websocket_updater("coinflip" + payment.payment_hash, "paid")

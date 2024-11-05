@@ -5,7 +5,6 @@ from fastapi.responses import HTMLResponse
 from lnbits.core.models import User
 from lnbits.decorators import check_user_exists
 from lnbits.helpers import template_renderer
-from loguru import logger
 
 from .crud import get_coinflip, get_coinflip_settings_from_id
 
