@@ -19,7 +19,7 @@
               dense
               v-model.number="coinflipSettings.haircut"
               type="number"
-              label="Haircut on coiflips (%)"
+              label="Haircut on coiflips (0-100%)"
             ></q-input>
           </div>
           <div class="col">
@@ -74,7 +74,7 @@
         >
         <q-btn
           class="q-mt-md q-ml-md"
-          v-if="coinflipSettings.id"
+          v-if="coinflipSettings.enabled && coinflipSettings.id"
           @click="formDialogCoinflip.show = true"
           color="primary"
           >Create coinflip game</q-btn
