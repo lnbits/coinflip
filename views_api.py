@@ -1,11 +1,10 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from lnbits.core.crud import get_user
 from lnbits.core.models import WalletTypeInfo
 from lnbits.core.services import create_invoice
 from lnbits.decorators import require_admin_key, require_invoice_key
-from starlette.exceptions import HTTPException
 
 from .crud import (
     create_coinflip,
