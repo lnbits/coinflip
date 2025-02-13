@@ -1,5 +1,5 @@
 {% extends "public.html" %} {% block page %}
-<q-card 
+<q-card
   class="fixed-center q-pa-xl"
   :style="{ width: $q.screen.lt.sm ? '100%' : '600px' }"
 >
@@ -7,35 +7,30 @@
     <center>
       <h3 class="q-my-none q-mb-xl"><span v-text="coinflip.name"></span></h3>
     </center>
-    <div class="row">
-      <div class="col">
-        <center>
-          <q-badge outline size="xl" color="secondary">
-            <div class="text-subtitle1">
-              No. of Players: <span v-text="coinflip.number_of_players"></span>
-            </div>
-          </q-badge>
-        </center>
+    <div class="row justify-center q-gutter-md">
+      <div class="col-auto">
+        <q-badge outline size="xl" color="secondary">
+          <div class="text-subtitle1">
+            No. of Players: <span v-text="coinflip.number_of_players"></span>
+          </div>
+        </q-badge>
       </div>
-      <div class="col">
-        <center>
-          <q-badge outline size="xl" color="secondary">
-            <div class="text-subtitle1">
-              Buy In: <span v-text="coinflip.buy_in"></span> sats
-            </div>
-          </q-badge>
-        </center>
+      <div class="col-auto">
+        <q-badge outline size="xl" color="secondary">
+          <div class="text-subtitle1">
+            Buy In: <span v-text="coinflip.buy_in"></span> sats
+          </div>
+        </q-badge>
       </div>
-      <div class="col">
-        <center>
-          <q-badge outline size="xl" color="secondary">
-            <div class="text-subtitle1">
-              Registration fee: <span v-text="coinflipHaircut"></span> %
-            </div>
-          </q-badge>
-        </center>
+      <div class="col-auto">
+        <q-badge outline size="xl" color="secondary">
+          <div class="text-subtitle1">
+            Registration fee: <span v-text="coinflipHaircut"></span> %
+          </div>
+        </q-badge>
       </div>
     </div>
+
     <q-form @submit="joinGame" class="q-gutter-md">
       <q-input
         label="Your LNadress"
@@ -262,7 +257,10 @@
       this.gameId = this.coinflipGameId;
       if (this.gameId) {
         await this.getGame();
-        if (this.coinflip.players.length >= this.coinflip.number_of_players || this.coinflip.completed) {
+        if (
+          this.coinflip.players.length >= this.coinflip.number_of_players ||
+          this.coinflip.completed
+        ) {
           this.gameComplete = true;
         }
       }
