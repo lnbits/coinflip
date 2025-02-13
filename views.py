@@ -39,7 +39,7 @@ async def display_coinflip(request: Request, coinflip_settings_id: str, game: st
                 status_code=HTTPStatus.NOT_FOUND, detail="Coinflip game does not exist."
             )
         if coinflip.completed:
-            winner = coinflip.players
+            winner = coinflip.name
     return coinflip_renderer().TemplateResponse(
         "coinflip/coinflip.html",
         {

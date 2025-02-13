@@ -123,6 +123,7 @@
         );
         if (response.data) {
           this.coinflip = response.data;
+          this.coinflip.players = this.coinflip.players.split(",");
           this.activeGame = true;
         }
       },
@@ -155,7 +156,6 @@
         url.pathname = `/api/v1/ws/coinflip${this.qr.payment_hash}`;
         const ws = new WebSocket(url);
         ws.addEventListener("message", async ({ data }) => {
-          console.log(data);
           dataArr = data.split(",");
           if (dataArr[0] == "paid") {
             this.$q.notify({
@@ -259,7 +259,7 @@
       this.gameId = this.coinflipGameId;
       if (this.gameId) {
         await this.getGame();
-        if (this.coinflip.players.length > this.coinflipMaxPlayers) {
+        if (this.coinflip.players.length >= this.coinflip.number_of_players) {
           this.gameComplete = true;
         }
       }

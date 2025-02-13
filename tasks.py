@@ -38,9 +38,15 @@ async def on_invoice_paid(payment: Payment) -> None:
     if (payment.amount / 1000) != coinflip.buy_in:
         return
     # If the game is full set as completed and refund the player.
-    coinflip_players = coinflip.players.split(",")
+    coinflip_players = []
+    if coinflip.players != "":
+        coinflip_players = coinflip.players.split(",")
+    if len(coinflip_players) > 0 and coinflip_players[0] == "":
+        coinflip_players.pop(0)
     if len(coinflip_players) + 1 > coinflip.number_of_players:
         coinflip.completed = True
+        coinflip_players.append(ln_address)
+        coinflip.players = ",".join(coinflip_players)
         await update_coinflip(coinflip)
 
         # Calculate the haircut amount
@@ -60,18 +66,13 @@ async def on_invoice_paid(payment: Payment) -> None:
         return
 
     # Add the player to the game.
-    if coinflip.players == "":
-        coinflip.players = ln_address
-    else:
-        coinflip.players = f"{coinflip.players},{ln_address}"
+    coinflip_players.append(ln_address)
+    coinflip.players = ",".join(coinflip_players)
     await update_coinflip(coinflip)
-
-    # If last to join flip, calculate winner and pay them.
-    coinflip_players = coinflip.players.split(",")
     if len(coinflip_players) == coinflip.number_of_players:
         coinflip.completed = True
         winner = random.choice(coinflip_players)
-        coinflip.players = winner
+        coinflip.name = winner
         await update_coinflip(coinflip)
         # Calculate the total amount of winnings
         total_amount = coinflip.buy_in * len(coinflip_players)
