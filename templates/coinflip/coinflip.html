@@ -1,5 +1,8 @@
 {% extends "public.html" %} {% block page %}
-<q-card class="fixed-center q-pa-xl" style="width: 600px">
+<q-card 
+  class="fixed-center q-pa-xl"
+  :style="{ width: $q.screen.lt.sm ? '100%' : '600px' }"
+>
   <q-card-section class="q-pa-none" v-if="activeGame && !gameComplete">
     <center>
       <h3 class="q-my-none q-mb-xl"><span v-text="coinflip.name"></span></h3>
@@ -259,7 +262,7 @@
       this.gameId = this.coinflipGameId;
       if (this.gameId) {
         await this.getGame();
-        if (this.coinflip.players.length >= this.coinflip.number_of_players) {
+        if (this.coinflip.players.length >= this.coinflip.number_of_players || this.coinflip.completed) {
           this.gameComplete = true;
         }
       }
