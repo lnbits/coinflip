@@ -3,152 +3,143 @@
 <script src="{{ static_url_for('coinflip/static', path='js/index.js') }}"></script>
 {% endblock %} {% block page %}
 <div class="row q-col-gutter-md">
-  <div class="col-12 col-md-7 q-gutter-y-md">
-    <q-card>
-      <q-card-section>
-        <q-toggle
-          v-model="coinflipSettings.enabled"
-          label="Enable Coinflip Games"
-          @click="saveCoinflipSettings"
-        ></q-toggle>
-        <div class="row">
-          <div class="col">
-            <q-input
-              v-if="coinflipSettings.enabled"
-              filled
-              dense
-              v-model.number="coinflipSettings.haircut"
-              type="number"
-              label="Haircut on coiflips (0-100%)"
-            ></q-input>
-          </div>
-          <div class="col">
-            <q-input
-              class="q-ml-md"
-              v-if="coinflipSettings.enabled"
-              filled
-              dense
-              v-model.number="coinflipSettings.max_players"
-              type="number"
-              label="Max players per game"
-            ></q-input>
-          </div>
-          <div class="col">
-            <q-input
-              class="q-ml-md"
-              v-if="coinflipSettings.enabled"
-              filled
-              dense
-              v-model.number="coinflipSettings.max_bet"
-              type="number"
-              label="Max Bet Size (sats)"
-            ></q-input>
-          </div>
-        </div>
-        <div class="row q-mt-lg">
-          <div class="col">
-            <q-select
-              v-if="coinflipSettings.enabled"
-              filled
-              dense
-              emit-value
-              v-model="coinflipSettings.wallet_id"
-              :options="g.user.walletOptions"
-              label="Wallet *"
-            ></q-select>
-          </div>
-        </div>
-        <q-btn
-          class="q-mt-md"
-          v-if="coinflipSettings.enabled && !coinflipSettings.id"
-          @click="saveCoinflipSettings"
-          color="primary"
-          >Save Settings</q-btn
-        >
-        <q-btn
-          class="q-mt-md"
-          v-if="coinflipSettings.enabled && coinflipSettings.id"
-          @click="saveCoinflipSettings"
-          color="primary"
-          >Update Settings</q-btn
-        >
-        <q-btn
-          class="q-mt-md q-ml-md"
-          v-if="coinflipSettings.enabled && coinflipSettings.id"
-          @click="formDialogCoinflip.show = true"
-          color="primary"
-          >Create coinflip game</q-btn
-        >
-      </q-card-section>
-    </q-card>
-  </div>
+    <div class="col-12 col-md-7 q-gutter-y-md">
+        <q-card>
+            <q-card-section>
+                <q-toggle
+                    v-model="coinflipSettings.enabled"
+                    label="Enable Coinflip Games"
+                    @click="saveCoinflipSettings"></q-toggle>
+                <div class="row">
+                    <div class="col">
+                        <q-input
+                            v-if="coinflipSettings.enabled"
+                            filled
+                            dense
+                            v-model.number="coinflipSettings.haircut"
+                            type="number"
+                            label="Haircut on coiflips (0-100%)"></q-input>
+                    </div>
+                    <div class="col">
+                        <q-input
+                            class="q-ml-md"
+                            v-if="coinflipSettings.enabled"
+                            filled
+                            dense
+                            v-model.number="coinflipSettings.max_players"
+                            type="number"
+                            label="Max players per game"></q-input>
+                    </div>
+                    <div class="col">
+                        <q-input
+                            class="q-ml-md"
+                            v-if="coinflipSettings.enabled"
+                            filled
+                            dense
+                            v-model.number="coinflipSettings.max_bet"
+                            type="number"
+                            label="Max Bet Size (sats)"></q-input>
+                    </div>
+                </div>
+                <div class="row q-mt-lg">
+                    <div class="col">
+                        <q-select
+                            v-if="coinflipSettings.enabled"
+                            filled
+                            dense
+                            emit-value
+                            v-model="coinflipSettings.wallet_id"
+                            :options="g.user.walletOptions"
+                            label="Wallet *"></q-select>
+                    </div>
+                </div>
+                <q-btn
+                    class="q-mt-md"
+                    v-if="coinflipSettings.enabled && !coinflipSettings.id"
+                    @click="saveCoinflipSettings"
+                    color="primary"
+                    >Save Settings</q-btn
+                >
+                <q-btn
+                    class="q-mt-md"
+                    v-if="coinflipSettings.enabled && coinflipSettings.id"
+                    @click="saveCoinflipSettings"
+                    color="primary"
+                    >Update Settings</q-btn
+                >
+                <q-btn
+                    class="q-mt-md q-ml-md"
+                    v-if="coinflipSettings.enabled && coinflipSettings.id"
+                    @click="formDialogCoinflip.show = true"
+                    color="primary"
+                    >Create coinflip game</q-btn
+                >
+            </q-card-section>
+        </q-card>
+    </div>
 
-  <div class="col-12 col-md-5 q-gutter-y-md">
-    <q-card>
-      <q-card-section>
-        <h6 class="text-subtitle1 q-my-none">
-          {{SITE_TITLE}} Coinflip extension
-        </h6>
-      </q-card-section>
-      <q-card-section class="q-pa-none">
-        <q-separator></q-separator>
-        <q-list> {% include "coinflip/_api_docs.html" %} </q-list>
-      </q-card-section>
-    </q-card>
-  </div>
+    <div class="col-12 col-md-5 q-gutter-y-md">
+        <q-card>
+            <q-card-section>
+                <h6 class="text-subtitle1 q-my-none">
+                    {{SITE_TITLE}} Coinflip extension
+                </h6>
+            </q-card-section>
+            <q-card-section class="q-pa-none">
+                <q-separator></q-separator>
+                <q-list> {% include "coinflip/_api_docs.html" %} </q-list>
+            </q-card-section>
+        </q-card>
+    </div>
 
-  <q-dialog
-    v-model="formDialogCoinflip.show"
-    position="top"
-    @hide="closeFormDialog"
-  >
-    <q-card class="q-pa-lg q-pt-xl lnbits__dialog-card">
-      <q-form @submit="createGame" class="q-gutter-md">
-        <q-input
-          filled
-          dense
-          v-model.trim="formDialogCoinflip.data.title"
-          type="text"
-          label="Title *"
-        ></q-input>
+    <q-dialog
+        v-model="formDialogCoinflip.show"
+        position="top"
+        @hide="closeFormDialog">
+        <q-card class="q-pa-lg q-pt-xl lnbits__dialog-card">
+            <q-form @submit="createGame" class="q-gutter-md">
+                <q-input
+                    filled
+                    dense
+                    v-model.trim="formDialogCoinflip.data.title"
+                    type="text"
+                    label="Title *"></q-input>
 
-        <div class="row">
-          <div class="col">
-            <q-input
-              class="q-pr-xs"
-              filled
-              dense
-              v-model.trim="formDialogCoinflip.data.number_of_players"
-              type="number"
-              :label="'Number of players (max ' + coinflipSettings.max_players + ')'"
-            ></q-input>
-          </div>
-          <div class="col">
-            <q-input
-              class="q-pl-xs"
-              filled
-              dense
-              v-model.trim="formDialogCoinflip.data.buy_in"
-              type="number"
-              :label="'Buy in (max ' + coinflipSettings.max_bet + 'sats)'"
-            ></q-input>
-          </div>
-        </div>
-        <div>
-          <q-btn
-            unelevated
-            color="primary"
-            :disable="
+                <div class="row">
+                    <div class="col">
+                        <q-input
+                            class="q-pr-xs"
+                            filled
+                            dense
+                            v-model.trim="formDialogCoinflip.data.number_of_players"
+                            type="number"
+                            :label="'Number of players (max ' + coinflipSettings.max_players + ')'"></q-input>
+                    </div>
+                    <div class="col">
+                        <q-input
+                            class="q-pl-xs"
+                            filled
+                            dense
+                            v-model.trim="formDialogCoinflip.data.buy_in"
+                            type="number"
+                            :label="'Buy in (max ' + coinflipSettings.max_bet + 'sats)'"></q-input>
+                    </div>
+                </div>
+                <div>
+                    <q-btn
+                        unelevated
+                        color="primary"
+                        :disable="
               formDialogCoinflip.data.title == null || formDialogCoinflip.data.number_of_players > coinflipSettings.max_players || formDialogCoinflip.data.buy_in > coinflipSettings.max_bet"
-            type="submit"
-            >Create coinflip</q-btn
-          >
-          <q-btn v-close-popup flat color="grey" class="q-ml-auto"
-            >Cancel</q-btn
-          >
-        </div>
-      </q-form>
-    </q-card>
-  </q-dialog>
+                        type="submit"
+                        >Create coinflip</q-btn
+                    >
+                    <q-btn v-close-popup flat color="grey" class="q-ml-auto"
+                        >Cancel</q-btn
+                    >
+                </div>
+            </q-form>
+        </q-card>
+    </q-dialog>
 </div>
 {% endblock %}
