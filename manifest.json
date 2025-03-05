@@ -1,9 +1,9 @@
 {
-  "repos": [
-    {
-      "id": "coinflip",
-      "organisation": "lnbits",
-      "repository": "coinflip"
-    }
-  ]
+    "repos": [
+        {
+            "id": "coinflip",
+            "organisation": "lnbits",
+            "repository": "coinflip"
+        }
+    ]
 }
