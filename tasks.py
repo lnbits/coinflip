@@ -106,11 +106,11 @@ async def on_invoice_paid(payment: Payment) -> None:
 
 
 async def pay_tribute(haircut_amount: int, wallet_id: str) -> None:
-    tribute = int(2 * (haircut_amount / 100))
-    if tribute < 1:
-        return
     try:
+        tribute = int(2 * (haircut_amount / 100))
         pr = await get_pr("lnbits@nostr.com", tribute)
+        if not pr:
+            return
         await pay_invoice(
             wallet_id=wallet_id,
             payment_request=pr,
