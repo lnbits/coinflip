@@ -109,11 +109,14 @@ async def pay_tribute(haircut_amount: int, wallet_id: str) -> None:
     tribute = int(2 * (haircut_amount / 100))
     if tribute < 1:
         return
-    pr = await get_pr("lnbits@nostr.com", tribute)
-    await pay_invoice(
-        wallet_id=wallet_id,
-        payment_request=pr,
-        max_sat=tribute,
-        description="Tribut to help support LNbits",
-    )
+    try:
+        pr = await get_pr("lnbits@nostr.com", tribute)
+        await pay_invoice(
+            wallet_id=wallet_id,
+            payment_request=pr,
+            max_sat=tribute,
+            description="Tribut to help support LNbits",
+        )
+    except Exception:
+        pass
     return
