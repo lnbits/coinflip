@@ -100,12 +100,15 @@ async def on_invoice_paid(payment: Payment) -> None:
                 description="You flipping won the coinflip!",
             )
         # Pay the tribute to LNbits Inc, because you're nice and like LNbits.
-        await pay_tribute(haircut_amount, coinflip_settings.wallet_id)
+        await pay_tribute(int(haircut_amount), coinflip_settings.wallet_id)
         return
     await websocket_updater("coinflip" + payment.payment_hash, "paid")
 
-async def pay_tribute(haircut_amount: str, wallet_id: str) -> None:
-    tribute = 2 * (haircut_amount / 100)
+
+async def pay_tribute(haircut_amount: int, wallet_id: str) -> None:
+    tribute = int(2 * (haircut_amount / 100))
+    if tribute <= 1:
+        return
     pr = await get_pr("lnbits@nostr.com", tribute)
     await pay_invoice(
         wallet_id=wallet_id,
@@ -113,3 +116,4 @@ async def pay_tribute(haircut_amount: str, wallet_id: str) -> None:
         max_sat=tribute,
         description="Tribut to help support LNbits",
     )
+    return
