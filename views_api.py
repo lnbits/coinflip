@@ -5,6 +5,8 @@ from lnbits.core.crud import get_user
 from lnbits.core.models import WalletTypeInfo
 from lnbits.core.services import create_invoice
 from lnbits.decorators import require_admin_key, require_invoice_key
+from lnurl import LnurlPayResponse
+from lnurl import handle as lnurl_handle
 
 from .crud import (
     create_coinflip,
@@ -14,7 +16,6 @@ from .crud import (
     get_coinflip_settings_from_id,
     update_coinflip_settings,
 )
-from .helpers import get_pr
 from .models import (
     CoinflipSettings,
     CreateCoinflip,
@@ -114,10 +115,16 @@ async def api_join_coinflip(data: JoinCoinflipGame):
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST, detail="This game is disabled"
         )
-    pay_req = await get_pr(data.ln_address, coinflip_game.buy_in)
-    if not pay_req:
+    try:
+        res = await lnurl_handle(data.ln_address)
+    except Exception as exc:
         raise HTTPException(
-            status_code=HTTPStatus.BAD_REQUEST, detail="lnaddress check failed"
+            status_code=HTTPStatus.BAD_REQUEST, detail=f"lnaddress error: {exc!s}"
+        ) from exc
+    if not isinstance(res, LnurlPayResponse):
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail="lnaddress return wrong response type",
         )
     payment = await create_invoice(
         wallet_id=coinflip_settings.wallet_id,

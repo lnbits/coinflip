@@ -2,15 +2,15 @@ import asyncio
 import random
 
 from lnbits.core.models import Payment
-from lnbits.core.services import pay_invoice, websocket_updater
+from lnbits.core.services import get_pr_from_lnurl, pay_invoice, websocket_updater
 from lnbits.tasks import register_invoice_listener
+from loguru import logger
 
 from .crud import (
     get_coinflip,
     get_coinflip_settings_from_id,
     update_coinflip,
 )
-from .helpers import get_pr
 
 
 async def wait_for_paid_invoices():
@@ -53,8 +53,10 @@ async def on_invoice_paid(payment: Payment) -> None:
         haircut_amount = coinflip.buy_in * (coinflip_settings.haircut / 100)
         # Calculate the refund amount
         max_sat = int(coinflip.buy_in - haircut_amount)
-        pr = await get_pr(ln_address, max_sat)
-        if not pr:
+        try:
+            pr = await get_pr_from_lnurl(ln_address, max_sat)
+        except Exception as exc:
+            logger.error(f"Error getting payment request for refund: {exc!s}")
             return
         await pay_invoice(
             wallet_id=coinflip_settings.wallet_id,
@@ -80,8 +82,10 @@ async def on_invoice_paid(payment: Payment) -> None:
         haircut_amount = total_amount * (coinflip_settings.haircut / 100)
         # Calculate the winnings minus haircut
         max_sat = int(total_amount - haircut_amount)
-        pr = await get_pr(winner, max_sat)
-        if not pr:
+        try:
+            pr = await get_pr_from_lnurl(winner, max_sat)
+        except Exception as exc:
+            logger.error(f"Error getting payment request for winner: {exc!s}")
             return
         if winner == ln_address:
             await websocket_updater("coinflip" + payment.payment_hash, f"won,{winner}")
@@ -108,8 +112,10 @@ async def on_invoice_paid(payment: Payment) -> None:
 async def pay_tribute(haircut_amount: int, wallet_id: str) -> None:
     try:
         tribute = int(2 * (haircut_amount / 100))
-        pr = await get_pr("lnbits@nostr.com", tribute)
-        if not pr:
+        try:
+            pr = await get_pr_from_lnurl("lnbits@nostr.com", tribute)
+        except Exception as exc:
+            logger.error(f"Error getting payment request for tribute: {exc!s}")
             return
         await pay_invoice(
             wallet_id=wallet_id,
