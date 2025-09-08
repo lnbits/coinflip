@@ -36,4 +36,4 @@ def coinflip_start():
     scheduled_tasks.append(task)
 
 
-__all__ = ["db", "coinflip_ext", "coinflip_static_files"]
+__all__ = ["coinflip_ext", "coinflip_static_files", "db"]

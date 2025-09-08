@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-from typing import Optional
 
 from fastapi import Query
 from pydantic import BaseModel
@@ -23,15 +22,15 @@ class CoinflipSettings(BaseModel):
 
 
 class CreateCoinflip(BaseModel):
-    settings_id: Optional[str] = None
+    settings_id: str | None = None
     name: str
     number_of_players: int = 0
     buy_in: int = 0
 
 
 class Coinflip(BaseModel):
-    id: Optional[str] = None
-    settings_id: Optional[str] = None
+    id: str | None = None
+    settings_id: str | None = None
     name: str
     number_of_players: int = 0
     buy_in: int = 0

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from lnbits.db import Database
 from lnbits.helpers import urlsafe_short_hash
 
@@ -26,7 +24,7 @@ async def update_coinflip_settings(settings: CoinflipSettings) -> CoinflipSettin
 
 async def get_coinflip_settings(
     user_id: str,
-) -> Optional[CoinflipSettings]:
+) -> CoinflipSettings | None:
     return await db.fetchone(
         "SELECT * FROM coinflip.settings WHERE user_id = :user_id",
         {"user_id": user_id},
@@ -34,7 +32,7 @@ async def get_coinflip_settings(
     )
 
 
-async def get_coinflip_settings_from_id(settings_id: str) -> Optional[CoinflipSettings]:
+async def get_coinflip_settings_from_id(settings_id: str) -> CoinflipSettings | None:
     return await db.fetchone(
         "SELECT * FROM coinflip.settings WHERE id = :id",
         {"id": settings_id},
@@ -54,7 +52,7 @@ async def update_coinflip(coinflip: Coinflip) -> Coinflip:
     return coinflip
 
 
-async def get_coinflip(coinflip_id: str) -> Optional[Coinflip]:
+async def get_coinflip(coinflip_id: str) -> Coinflip | None:
     return await db.fetchone(
         "SELECT * FROM coinflip.coinflip WHERE id = :id",
         {"id": coinflip_id},
@@ -62,7 +60,7 @@ async def get_coinflip(coinflip_id: str) -> Optional[Coinflip]:
     )
 
 
-async def get_latest_coinflip(page_id: str) -> Optional[Coinflip]:
+async def get_latest_coinflip(page_id: str) -> Coinflip | None:
     return await db.fetchone(
         "SELECT * FROM coinflip.coinflip WHERE page_id = :id ORDER BY created_at DESC",
         {"page_id": page_id},
