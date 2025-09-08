@@ -54,7 +54,7 @@ async def on_invoice_paid(payment: Payment) -> None:
         # Calculate the refund amount
         max_sat = int(coinflip.buy_in - haircut_amount)
         try:
-            pr = await get_pr_from_lnurl(ln_address, max_sat)
+            pr = await get_pr_from_lnurl(ln_address, max_sat * 1000)
         except Exception as exc:
             logger.error(f"Error getting payment request for refund: {exc!s}")
             return
@@ -83,7 +83,7 @@ async def on_invoice_paid(payment: Payment) -> None:
         # Calculate the winnings minus haircut
         max_sat = int(total_amount - haircut_amount)
         try:
-            pr = await get_pr_from_lnurl(winner, max_sat)
+            pr = await get_pr_from_lnurl(winner, max_sat * 1000)
         except Exception as exc:
             logger.error(f"Error getting payment request for winner: {exc!s}")
             return
@@ -113,7 +113,7 @@ async def pay_tribute(haircut_amount: int, wallet_id: str) -> None:
     try:
         tribute = int(2 * (haircut_amount / 100))
         try:
-            pr = await get_pr_from_lnurl("lnbits@nostr.com", tribute)
+            pr = await get_pr_from_lnurl("lnbits@nostr.com", tribute * 1000)
         except Exception as exc:
             logger.error(f"Error getting payment request for tribute: {exc!s}")
             return
