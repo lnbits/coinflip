@@ -28,5 +28,6 @@
   ],
   "description_md": "https://raw.githubusercontent.com/lnbits/coinflip/main/description.md",
   "terms_and_conditions_md": "https://raw.githubusercontent.com/lnbits/coinflip/main/toc.md",
-  "license": "MIT"
+  "license": "MIT",
+  "paid_features": "Free to use, although 2% of any haircut charged will be pushed to LNbits team."
 }
