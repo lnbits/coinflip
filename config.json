@@ -1,10 +1,12 @@
 {
+  "id": "coinflip",
+  "version": "1.1.2",
   "name": "Coinflip",
-  "version": "1.1.1",
+  "repo": "https://github.com/lnbits/coinflip",
   "short_description": "Bet sats on coinflips",
+  "description": "",
   "tile": "/coinflip/static/image/coinflip.gif",
   "min_lnbits_version": "1.3.0",
-  "tags": ["gambling"],
   "contributors": [
     {
       "name": "arcbtc",
@@ -29,5 +31,8 @@
   "description_md": "https://raw.githubusercontent.com/lnbits/coinflip/main/description.md",
   "terms_and_conditions_md": "https://raw.githubusercontent.com/lnbits/coinflip/main/toc.md",
   "license": "MIT",
-  "paid_features": "Free to use, although 2% of any haircut charged will be pushed to LNbits team."
+  "paid_features": "Free to use, although 2% of any haircut charged will be pushed to LNbits team.",
+  "tags": ["Gambling"],
+  "donate": "",
+  "hidden": false
 }
