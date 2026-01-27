@@ -16,6 +16,10 @@
   ],
   "images": [
     {
+      "uri": "https://raw.githubusercontent.com/lnbits/coinflip/main/static/image/Coinflip_Thumbnail.png",
+      "link": "https://www.youtube.com/watch?v=c5K6XOnT1nc"
+    },
+    {
       "uri": "https://raw.githubusercontent.com/lnbits/coinflip/main/static/image/1.png"
     },
     {
