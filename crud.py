@@ -11,7 +11,10 @@ async def create_coinflip_settings(
     wallet_id: str, user_id: str, data: CreateCoinflipSettings
 ) -> CoinflipSettings:
     settings = CoinflipSettings(
-        **data.dict(), wallet_id=wallet_id, user_id=user_id, id=urlsafe_short_hash()
+        **data.model_dump(),
+        wallet_id=wallet_id,
+        user_id=user_id,
+        id=urlsafe_short_hash(),
     )
     await db.insert("coinflip.settings", settings)
     return settings
@@ -42,7 +45,7 @@ async def get_coinflip_settings_from_id(settings_id: str) -> CoinflipSettings | 
 
 # Coinflips
 async def create_coinflip(data: CreateCoinflip) -> Coinflip:
-    coinflip = Coinflip(**data.dict(), id=urlsafe_short_hash())
+    coinflip = Coinflip(**data.model_dump(), id=urlsafe_short_hash())
     await db.insert("coinflip.coinflip", coinflip)
     return coinflip
 

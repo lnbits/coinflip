@@ -18,7 +18,7 @@ def coinflip_renderer():
 @coinflip_generic_router.get("/", response_class=HTMLResponse)
 async def index(request: Request, user: User = Depends(check_user_exists)):
     return coinflip_renderer().TemplateResponse(
-        "coinflip/index.html", {"request": request, "user": user.json()}
+        "coinflip/index.html", {"request": request, "user": user.model_dump_json()}
     )
 
 
