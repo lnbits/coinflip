@@ -99,6 +99,11 @@ async def api_create_coinflip(
 
 @coinflip_api_router.post("/api/v1/coinflip/join/", status_code=HTTPStatus.OK)
 async def api_join_coinflip(data: JoinCoinflipGame):
+    if data.settings_id is None or data.game_id is None or data.ln_address is None:
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail="Game, settings and Lightning address are required",
+        )
     coinflip_settings = await get_coinflip_settings_from_id(data.settings_id)
     coinflip_game = await get_coinflip(data.game_id)
     if not coinflip_game:
