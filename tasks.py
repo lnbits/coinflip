@@ -34,6 +34,8 @@ async def on_invoice_paid(payment: Payment) -> None:
     coinflip_settings = await get_coinflip_settings_from_id(coinflip.settings_id)
     if not coinflip_settings:
         return
+    if payment.wallet_id != coinflip_settings.wallet_id:
+        return
     # Check they are not trying to scam the system.
     if (payment.amount / 1000) != coinflip.buy_in:
         return
