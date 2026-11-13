@@ -1191,7 +1191,7 @@ wheels = [
 
 [[package]]
 name = "lnbits-coinflip"
-version = "1.2.0"
+version = "1.2.2"
 source = { virtual = "." }
 dependencies = [
     { name = "lnbits" },
